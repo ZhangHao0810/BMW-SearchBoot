@@ -1,5 +1,23 @@
 package com.zhanghao.searchboot.util;
-
+/**
+ * @author ZhangHao
+ * @date 2020年10月28日
+ * 	自动根据表生成mapping model dao等 
+ * 
+ * 	要好好的根据自己项目的实际情况进行调试。
+ * 	调试位置：
+ * 	bean_path：model包目录
+ * 	mapper_path：dao 包目录
+ * 	xml_path：mapping 包目录
+ * 
+ * 
+ * 	moduleName 数据库名
+ * 	model_package model包位置
+ * 	dao_package dao包位置
+ * 
+ * 	user password url  数据库的相关配置。
+ * 			
+ */
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -40,17 +58,17 @@ public class EntityUtil {
 
 	private final String type_blob = "blob";
 
-	private final String moduleName = "bmw-first-springboot"; // 数据库名称
+	private final String moduleName = "bmw-searchboot"; // 数据库名称
 
-	private final String bean_path = "d:\\mybatistest\\bean\\";
+	private final String bean_path = "D:\\DATA\\Eclipse Data\\BMW-workspace\\BMW-SearchBoot\\src\\main\\java\\com\\zhanghao\\searchboot\\model\\";
 
-	private final String mapper_path = "d:\\mybatistest\\mapper\\";
+	private final String mapper_path = "D:\\DATA\\Eclipse Data\\BMW-workspace\\BMW-SearchBoot\\src\\main\\java\\com\\zhanghao\\searchboot\\dao\\";
 
-	private final String xml_path = "d:\\mybatistest\\xml\\";// xml路径
+	private final String xml_path = "D:\\DATA\\Eclipse Data\\BMW-workspace\\BMW-SearchBoot\\src\\main\\resources\\mapping\\";// xml路径
 
-	private final String model_package = "com.zhanghao.first.model";// model的包所在
+	private final String model_package = "com.zhanghao.searchboot.model";// model的包所在
 
-	private final String dao_package = "com.zhanghao.first.dao";// dao的包所在
+	private final String dao_package = "com.zhanghao.searchboot.dao";// dao的包所在
 
 	private final String driverName = "com.mysql.cj.jdbc.Driver";
 
@@ -259,13 +277,12 @@ public class EntityUtil {
 	 */
 	private void buildEntityBean(List<String> columns, List<String> types, List<String> comments, String tableComment) throws IOException {
 		// 创建包目录
-		String packagePath = bean_path + File.separator + createPackagePath(model_package);
-		File folder = new File(packagePath);
+		File folder = new File(bean_path);
 		if (!folder.exists()) {
 			folder.mkdirs();
 		}
 
-		File beanFile = new File(packagePath, beanName + ".java");
+		File beanFile = new File(bean_path, beanName + ".java");
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(beanFile)));
 		bw.write("package " + model_package + ";");
 		bw.newLine();
@@ -345,7 +362,7 @@ public class EntityUtil {
 		bw.newLine();
 		bw.write("import " + model_package + "." + beanName + ";");
 		bw.newLine();
-		bw.write("import com.bmw.search.util.bean.CommonQueryBean;");
+		bw.write("import com.zhanghao.searchboot.util.bean.CommonQueryBean;");
 		bw.newLine();
 		bw.newLine();
 		bw.write("import org.apache.ibatis.annotations.Param;");
@@ -856,7 +873,7 @@ public class EntityUtil {
 		try {
 			new EntityUtil().generate();
 			// 自动打开生成文件的目录
-			Runtime.getRuntime().exec("cmd /c start explorer d:\\mybatistest\\");
+			Runtime.getRuntime().exec("cmd /c start explorer D:\\DATA\\Eclipse Data\\BMW-workspace\\BMW-SearchBoot");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
