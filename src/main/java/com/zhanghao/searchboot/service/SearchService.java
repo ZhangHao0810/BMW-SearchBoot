@@ -8,4 +8,6 @@ public interface SearchService {
 
 	
 	List<Information> search(String word);
+
+	void importNews();
 }

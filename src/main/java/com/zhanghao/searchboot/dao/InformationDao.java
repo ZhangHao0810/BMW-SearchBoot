@@ -73,4 +73,6 @@ public interface InformationDao{
 	 */
 	List<Information> mach(String word);
 
+	int insertIfNotExist(Information info);
+
 }
