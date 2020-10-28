@@ -2,7 +2,7 @@ package com.zhanghao.searchboot.util;
 /**
  * @author ZhangHao
  * @date 2020年10月28日
- * 	自动根据表生成mapping model dao等 
+ * @describe  自动根据表生成mapping model dao等 
  * 
  * 	要好好的根据自己项目的实际情况进行调试。
  * 	调试位置：
