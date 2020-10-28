@@ -248,4 +248,14 @@
 			 and is_deleted = #{isDeleted} 
 		</if>
 	</select>
+	
+	<!-- resultMap 是上面定义好的， resultType 要写具体类的包名 -->
+	<!-- 模糊查询 -->
+	<select id="match" resultMap="Information">
+		select
+		<include refid="Base_column_List" />
+		from information
+		where
+		info_text like concat('%',#{word},'%')
+	</select>
 </mapper>

@@ -65,5 +65,12 @@ public interface InformationDao{
 	 * 
 	 **/
 	List<Information> list ( Information record);
+	
+	/**
+	 * 	模糊匹配
+	 * @param word
+	 * @return
+	 */
+	List<Information> mach(String word);
 
 }
