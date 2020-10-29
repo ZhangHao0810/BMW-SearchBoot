@@ -71,8 +71,10 @@ public interface InformationDao{
 	 * @param word
 	 * @return
 	 */
-	List<Information> mach(String word);
+	List<Information> match(String word);
 
 	int insertIfNotExist(Information info);
+
+	List<Information> selectByInfo_text(@Param("info") String info);
 
 }

@@ -14,7 +14,7 @@ public class NewsJob {
 	@Autowired
 	SearchService searchService;
 
-	@Scheduled(cron = "0 0/10 * * * ?")
+	@Scheduled(cron = "0/3 * * * * ?")
 	public void run() {
 		LOG.info("===开始爬取内容定时任务===");
 		searchService.importNews();

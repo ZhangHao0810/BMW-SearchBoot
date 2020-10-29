@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +25,13 @@ public class SearchController {
 	@ResponseBody//返回的是 Json 不写的话 ，因为前面写的是@ Controller 所以默认返回一个页面
 	public List<Information> search(String word){
 		return searchService.search(word);
+	}
+	
+	@RequestMapping("/page/search")//Model 就好比 Model层的Model 可以通过它来给前端jsp传一些[key,value]值。
+	public String searchIndexPage(String word,Model m) {
+		m.addAttribute("word", word);
+		m.addAttribute("list", searchService.search(word));
+		return "search";
 	}
 
 }

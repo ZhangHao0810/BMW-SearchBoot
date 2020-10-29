@@ -80,7 +80,13 @@ public class Information{
   }
 
 
-  public String getInfoSrc() {     return this.infoSrc;
+  @Override
+public String toString() {
+	return "Information [id=" + id + ", infoSrc=" + infoSrc + ", infoText=" + infoText  + "]";
+}
+
+
+public String getInfoSrc() {     return this.infoSrc;
   }
 
 

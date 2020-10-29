@@ -41,6 +41,14 @@
 		FROM information
 		WHERE id = #{id}
 	</select>
+	
+	<!-- 查询（根据内容查询） -->
+		<select id="selectByInfo_text" resultMap="Information" >
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM information
+		WHERE info_text = #{info}
+	</select>
 
 	<!--删除：根据主键ID删除 -->
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
@@ -175,7 +183,7 @@
 		</if>
 	</select>
 	<!-- count 总数 -->
-	<select id="count" resultType="long">
+	<select id="count" parameterType="com.zhanghao.searchboot.model.Information" resultType="long">
 		SELECT
 		count(1)
 		from information
@@ -259,7 +267,7 @@
 	<!-- 模糊查询 -->
 	<select id="match" resultMap="Information">
 		select
-		<include refid="Base_column_List" />
+		<include refid="Base_Column_List" />
 		from information
 		where
 		info_text like concat('%',#{word},'%')

@@ -37,7 +37,7 @@ public class SearchServiceImpl implements SearchService {
 	@Override
 	public List<Information> search(String word) {
 		
-		return informationDao.mach(word);
+		return informationDao.match(word);
 	}
 
 	@Override
@@ -61,13 +61,26 @@ public class SearchServiceImpl implements SearchService {
                     info.setSingleTag(DigestUtils.md5DigestAsHex(o.getString("title").getBytes()));
                     info.setCreateTime(date);
                     info.setUpdateTime(date);
-                    informationDao.insertIfNotExist(info);
+
+                    //用Java服务端来防止重复插入。
+                   if (informationDao.selectByInfo_text(info.getInfoText()).isEmpty()) {
+                	   informationDao.insert(info);
+                   }
+               
+                   //进行数据库操作之后， info会带上数据库的值???
+                   System.out.println(info.toString());
+                   System.out.println(informationDao.count(info));   
+                   System.out.println(informationDao.selectByInfo_text(info.getInfoText()).toString());
+                   
+                    //用数据库来判断是否重复。
+                    //informationDao.insertIfNotExist(info);
+                    LOG.info("====插入的id:{}====",info.getId()); // 好奇怪，为何插入成功后这里的info.getId 有值，上面没写info.setId
                 }
             }
         } catch (Exception e) {
-            LOG.error("爬取内容方法异常：excp={}", e);
+            LOG.error("爬取新闻方法异常：excp={}", e);
         }
-        LOG.info("===[结束调用爬取内容方法]===");
+        LOG.info("===[结束调用爬取新闻方法]===");
     }
 	
 	
