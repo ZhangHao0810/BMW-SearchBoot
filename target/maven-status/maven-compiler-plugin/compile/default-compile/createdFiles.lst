@@ -1,0 +1,14 @@
+com\zhanghao\searchboot\service\impl\SearchServiceImpl.class
+com\zhanghao\searchboot\util\http\HttpClientConfig.class
+com\zhanghao\searchboot\MainApplication.class
+com\zhanghao\searchboot\model\Information.class
+com\zhanghao\searchboot\config\RedisConfig.class
+com\zhanghao\searchboot\controller\SearchController.class
+com\zhanghao\searchboot\util\EntityUtil.class
+com\zhanghao\searchboot\util\http\HttpResult.class
+com\zhanghao\searchboot\util\redis\RedisUtil.class
+com\zhanghao\searchboot\util\http\HttpClientUtil.class
+com\zhanghao\searchboot\job\NewsJob.class
+com\zhanghao\searchboot\util\bean\CommonQueryBean.class
+com\zhanghao\searchboot\dao\InformationDao.class
+com\zhanghao\searchboot\service\SearchService.class
