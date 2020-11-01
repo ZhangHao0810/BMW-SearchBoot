@@ -1,6 +1,7 @@
 package com.zhanghao.searchboot.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,6 +33,19 @@ public class SearchController {
 		m.addAttribute("word", word);
 		m.addAttribute("list", searchService.search(word));
 		return "search";
+	}
+	
+	@RequestMapping("/api/rank")
+	@ResponseBody
+	public List<Map<String, Object>> searchRank(){
+		return searchService.searchRank();
+	}
+	
+	
+	@RequestMapping("/page/rank")
+	public  String searchRankPage(Model m) {
+		m.addAttribute("list", searchService.searchRank());
+		return "rank";
 	}
 
 }

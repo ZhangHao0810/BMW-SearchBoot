@@ -1,11 +1,17 @@
 package com.zhanghao.searchboot.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
@@ -18,6 +24,9 @@ import com.zhanghao.searchboot.model.Information;
 import com.zhanghao.searchboot.service.SearchService;
 import com.zhanghao.searchboot.util.http.HttpClientUtil;
 import com.zhanghao.searchboot.util.http.HttpResult;
+import com.zhanghao.searchboot.util.redis.RedisUtil;
+
+import io.netty.util.internal.StringUtil;
 
 @Service
 @Transactional
@@ -30,14 +39,20 @@ public class SearchServiceImpl implements SearchService {
 	@Autowired
 	InformationDao  informationDao;
 	
-	
 	@Autowired
 	HttpClientUtil httpClient;
+	
+	@Autowired
+	RedisUtil redisUtil;
 		
 	@Override
 	public List<Information> search(String word) {
-		
+		if(StringUtils.isNotBlank(word)) {
+			record(word);
 		return informationDao.match(word);
+		}
+		
+		return new ArrayList<Information>();
 	}
 
 	@Override
@@ -85,4 +100,33 @@ public class SearchServiceImpl implements SearchService {
 	
 	
 	
+    public Double record(String word) {
+        try {
+            return redisUtil.zincrby("NEWS_SEARCH:", word, 1);
+        } catch (Exception e) {
+            LOG.error("===[记录热搜词时出现异常：excp={}]===", e);
+        }
+        return 0D;
+    }
+
+	@Override
+    public List<Map<String, Object>> searchRank() {
+        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+        try {
+            Set<TypedTuple<Object>> set = redisUtil.zrevrangeByScoreWithScores("NEWS_SEARCH:", 0D,
+                    10000D);
+            int i = 1;
+            for (TypedTuple t : set) {
+                Map<String, Object> map = new HashMap<String, Object>();
+                map.put("word", String.valueOf(t.getValue()));
+                map.put("num", t.getScore().intValue());
+                map.put("rank", i);
+                list.add(map);
+                i++;
+            }
+        } catch (Exception e) {
+            LOG.error("===[记录热搜词时出现异常：excp={}]===", e);
+        }
+        return list;
+    }
 }
