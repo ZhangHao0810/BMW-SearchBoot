@@ -1,4 +1,5 @@
 package com.zhanghao.searchboot.util;
+
 /**
  * @author ZhangHao
  * @date 2020年10月28日
